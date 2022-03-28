@@ -10,7 +10,7 @@ Authored by Aidan Winters 2/15/2022. Updated 2/28/2022
 - Norgay/Tenzing: These are twin servers that are used entirely interactively (no job queue) so make sure to allocate resources appropriately and communicate with other users when you are running resource-heavy jobs. These servers are shared with the Goodarzi lab.
   - Specs: 56 CPUs, 756 GB RAM, 65 TB Hard drive 
 
-
+---
 ## Getting Started
 
 ### Setting up an Account
