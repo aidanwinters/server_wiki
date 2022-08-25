@@ -187,7 +187,7 @@ Creating a conda environement is useful for isolating distinct projects. But if 
 
 ---
 
-#### Connect Node9 to the Internet
+## Connect Node9 to the Internet
 To connect Node9 to the internet, you need to set up a proxy through the Marlowe head node. Add the following to your `.bashrc` in your home directory: 
 
 ```
