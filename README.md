@@ -20,10 +20,20 @@ Authored by Aidan Winters 2/15/2022. Updated 2/28/2022
 1. Marlowe: please email David.Quigley@ucsf.edu for a new account
 2. Norgay/Tenzing: please email Aidan.winters@ucsf.edu with your desired username and follow instructions to reset password
 
+
+### Things to know to use Command Line Interface (CLI):
+There are several commands that you need to know to comfortably use Marlowe. 
+A few of those include: `ls`, `cd`, `ssh`, `vim/nano`
+
+This tutorial is pretty good to learn more: https://www.educative.io/blog/bash-shell-command-cheat-sheet
+
+
 ---
 
 ### Logging in to Marlowe
 Marlowe is a computing cluster (also called a server) with 9 compute nodes and one 'head' or 'login' node that must first be accessed before accessing any of the compute nodes. We access this login node through our local computer (aka your laptop/desktop computer).
+Below are the basic commands for ssh but <strong>I highly recommend you use the ssh config method (<a href="#ssh_config">described below</a>)</strong>
+
 To log into the head node, type the following on your local computer: 
 ```
 ssh <my_username>@marlowe.cc.ucsf.edu
@@ -51,6 +61,34 @@ You may have noticed that logging in to Marlowe (Head node) from your local comp
    - Login to the head node and then type `ssh-keygen`  and hit enter through all the prompts
    - Then, type `ssh -i ~/.ssh/id_rsa <my_username>@node9`
    - Enter your password and then try logging in with `ssh <my_username>@node9`
+
+
+### <a id="ssh_config">Set up SSH Config file</a>
+This method is really nice because it simplifies logging into our servers and get rid of the annoying double jump needed for getting on Node9. To enable this, you need to add ssh profiles to a file called `config` in your `.ssh/` folder in your home directory. The path to that file would be `~/.ssh/config. If the file is not there please create one. To do this add the following to you .ssh config file and make sure to replace the areas where indicated: 
+```
+Host marlowe
+  User <YOUR_USERNAME_HERE>
+  HostName marlowe.cc.ucsf.edu
+  ProxyJump bch-svr
+
+Host node9
+  User <YOUR_USERNAME_HERE>
+  HostName node9.marlowe.cc.ucsf.edu
+  ProxyJump marlowe
+```
+
+After doing this you should be able to log in to Marlowe like so: `ssh marlowe` and into node9: `ssh node9`
+
+Additionally, if you need port forwarding for something like Jupyter (<a href="#port_forward">see below</a>) you can update the "node9" profile to look like this: 
+```
+Host node9
+  User <YOUR_USERNAME_HERE>
+  HostName node9.marlowe.cc.ucsf.edu
+  ProxyJump marlowe
+  LocalForward <MY_PORT_NUMBER_HERE> localhost:<MY_PORT_NUMBER_HERE>
+```
+
+Then set up the forwarding in the background like so: `ssh -Nf node9`
 
 ---
 ---
@@ -148,6 +186,16 @@ Creating a conda environement is useful for isolating distinct projects. But if 
 4. To access this kernel, either select the kernel when you make a new notebook or, for an existing notebook, you should see a drop down menu on the top left header of the jupyter notebook where you can select a kernel to use.
 
 ---
+
+#### Connect Node9 to the Internet
+To connect Node9 to the internet, you need to set up a proxy through the Marlowe head node. Add the following to your `.bashrc` in your home directory: 
+
+```
+export HTTP_PROXY=http://169.230.134.132:3128
+export HTTPS_PROXY=http://169.230.134.132:3128
+```
+
+This allows you to install through conda on Node9 and use python/R packages on Node9 that require internet access. Warning though, this disabled conda installs for me on Marlowe head node. It is an imperfect solution. 
 
 ## Useful Tips: (TO BE ADDED)
 
