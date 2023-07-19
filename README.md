@@ -185,6 +185,19 @@ Creating a conda environement is useful for isolating distinct projects. But if 
     `python -m ipykernel install --user --name my_environment --display-name "My First Python Env"`
 4. To access this kernel, either select the kernel when you make a new notebook or, for an existing notebook, you should see a drop down menu on the top left header of the jupyter notebook where you can select a kernel to use.
 
+#### Installing an R environment using Conda (or mamba)
+(Highly recommended: I wrote everything in `mamba` commands below since it is much faster but can be switched with `conda` if you prefer)
+1. Install jupyter in your base environment: `mamba install -c conda-forge jupyterlab`
+2. Create new conda env and simultaneously install R base and Rkernel: `mamba create -n MY_R_ENV -c conda-forge r-base r-irkernel`
+    - Rkernel lets you 'install' this conda environment as a kernel on jupyter so you can select it in a jupyter notebook
+3. Once those are installed activate that environment: `mamba activate my_R_env`
+4. Verify that R is installed within that environment with `which R`
+    - This should look something like this: `/my_home/mambaforge/envs/MY_R_ENV/bin/R`
+5. Next, open up an R session by typing `R`
+6. Then finally to install that conda environment as a jupyter kernel, run this in R with your desired environment name: `IRkernel::installspec(name = 'MY_R_ENV', displayname = 'My R Kernel')`
+7. Now when you go to create a new notebook you should see "My R Kernel" as an option for conda kernels (usually in the top right corner of jupyter notebook)
+
+
 ---
 
 ## Connect Node9 to the Internet
